@@ -1,38 +1,35 @@
-async function convertToMp3() {
-    const youtubeUrl = document.getElementById("youtube-url").value;
-    const resultDiv = document.getElementById("result");
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('toolForm');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const requestData = {};
+    formData.forEach((value, key) => {
+      requestData[key] = value;
+    });
 
     try {
-        if (typeof ytdl === 'undefined') {
-            await loadScript('https://cdn.jsdelivr.net/npm/ytdl-core@latest');
-        }
+      const response = await fetch('/tools', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+      });
 
-        const info = await ytdl.getInfo(youtubeUrl);
-        const audioFormats = ytdl.filterFormats(info.formats, 'audioonly');
-        const audioStream = ytdl.chooseFormat(audioFormats, { quality: 'highestaudio' });
+      if (!response.ok) {
+        throw new Error('Failed to add tool');
+      }
 
-        resultDiv.innerHTML = `Converting...`;
-
-        const response = await fetch(audioStream.url);
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${info.title}.mp3`;
-        a.textContent = 'Download MP3';
-        resultDiv.innerHTML = '';
-        resultDiv.appendChild(a);
+      const data = await response.json();
+      console.log('Tool added:', data);
+      // Optionally, you can display a success message or redirect the user.
     } catch (error) {
-        resultDiv.innerHTML = `Error: ${error.message}`;
+      console.error('Error:', error.message);
+      // Optionally, you can display an error message to the user.
     }
-}
+  });
+});
 
-function loadScript(url) {
-    return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = url;
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-    });
-}
