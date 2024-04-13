@@ -1,7 +1,7 @@
 async function convertToMp3() {
     const youtubeUrl = document.getElementById("youtube-url").value;
     const resultDiv = document.getElementById("result");
-    
+
     try {
         const info = await ytdl.getInfo(youtubeUrl);
         const audioFormats = ytdl.filterFormats(info.formats, 'audioonly');
@@ -22,3 +22,12 @@ async function convertToMp3() {
         resultDiv.innerHTML = `Error: ${error.message}`;
     }
 }
+
+// Import ytdl-core library dynamically
+const script = document.createElement('script');
+script.src = 'https://cdn.jsdelivr.net/npm/ytdl-core@latest';
+script.onload = function () {
+    console.log('ytdl-core loaded.');
+    // Now ytdl-core is loaded, you can call functions that use it
+};
+document.head.appendChild(script);
