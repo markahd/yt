@@ -1,19 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube to MP3 Converter</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Software Directory</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>YouTube to MP3 Converter</h1>
-        <input type="text" id="youtube-url" placeholder="Enter YouTube URL">
-        <button onclick="convertToMp3()">Convert to MP3</button>
-        <div id="result"></div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/ytdl-core@latest"></script>
-    <script src="script.js"></script>
+  <div class="container">
+    <h1>Software Directory</h1>
+    <form id="toolForm">
+      <input type="text" name="title" placeholder="Title" required>
+      <input type="text" name="description" placeholder="Description" required>
+      <input type="text" name="category" placeholder="Category" required>
+      <input type="text" name="author" placeholder="Author" required>
+      <input type="text" name="version" placeholder="Version" required>
+      <input type="url" name="website" placeholder="Website URL">
+      <input type="url" name="downloadUrl" placeholder="Download URL" required>
+      <input type="text" name="license" placeholder="License">
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('toolForm');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const requestData = {};
+        formData.forEach((value, key) => {
+          requestData[key] = value;
+        });
+
+        try {
+          const response = await fetch('/tools', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to add tool');
+          }
+
+          const data = await response.json();
+          console.log('Tool added:', data);
+          // Optionally, you can display a success message or redirect the user.
+        } catch (error) {
+          console.error('Error:', error.message);
+          // Optionally, you can display an error message to the user.
+        }
+      });
+    });
+  </script>
 </body>
 </html>
