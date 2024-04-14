@@ -1,0 +1,47 @@
+/* Reset some default browser styles */
+body, h1, p {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+header {
+    background-color: #343a40;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto; /* Center horizontally */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.airtable-embed {
+    width: 100%;
+    height: 533px;
+    border: none; /* Remove border */
+    border-radius: 8px;
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 600px) {
+    .container {
+        padding: 10px; /* Reduce padding on small screens */
+    }
+    .airtable-embed {
+        height: 300px; /* Adjust height for smaller screens */
+    }
+}
