@@ -1,68 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meme Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        #meme {
-            max-width: 100%;
-            margin-top: 20px;
-        }
-    </style>
-</head>
+<html>
 <body>
-    <h1>Meme Generator</h1>
-    <div>
-        <input type="text" id="topText" placeholder="Top Text">
-        <input type="text" id="bottomText" placeholder="Bottom Text">
-        <input type="file" id="imageInput">
-        <button onclick="generateMeme()">Generate Meme</button>
-    </div>
-    <div>
-        <img id="meme" src="" alt="Generated Meme">
-    </div>
+<iframe class="airtable-embed" src="https://airtable.com/embed/appBg4PLrIm7953ki/shr3ByXrGi0RETHUX?backgroundColor=green&layout=card&viewControls=on" frameborder="0" onmousewheel="" width="100%" height="533" style="background: transparent; border: 1px solid #ccc;"></iframe>
 
-    <script>
-        function generateMeme() {
-            const topText = document.getElementById('topText').value;
-            const bottomText = document.getElementById('bottomText').value;
-            const imageInput = document.getElementById('imageInput');
-
-            if (!topText || !bottomText || !imageInput.files[0]) {
-                alert('Please enter top text, bottom text, and select an image.');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const img = document.getElementById('meme');
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(imageInput.files[0]);
-
-            const memeText = document.createElement('div');
-            memeText.style.position = 'absolute';
-            memeText.style.top = '10px';
-            memeText.style.left = '50%';
-            memeText.style.transform = 'translateX(-50%)';
-            memeText.style.color = 'white';
-            memeText.style.textAlign = 'center';
-            memeText.style.width = '100%';
-            memeText.innerHTML = `
-                <div style="position: relative;">
-                    <span style="font-size: 30px; display: block;">${topText}</span>
-                    <span style="font-size: 30px; display: block;">${bottomText}</span>
-                </div>
-            `;
-
-            const memeContainer = document.querySelector('div');
-            memeContainer.appendChild(memeText);
-        }
-    </script>
 </body>
 </html>
